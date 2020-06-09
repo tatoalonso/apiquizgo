@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	server "github.com/tatoalonso/apiquizgo/pkg"
+	server "github.com/tatoalonso/apiquizgo/pkg/infrastructure"
 )
 
 func main() {

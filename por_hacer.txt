@@ -1,0 +1,5 @@
+- meter go modules
+- instalar elasticsearch  --> lo  haremos con docker
+- cliente de elasticsearch --> en principio será el oficial
+- meter uso del paquete context
+
