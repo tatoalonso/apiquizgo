@@ -31,30 +31,22 @@ func NewInMemoryRepository() quiz.Repository {
 //CreateQuiz inserts a new Quiz in the repository
 func (storage InMemoryRepository) CreateQuiz(q quiz.Quiz) (*quiz.Quiz, error) {
 
-	f, err := os.OpenFile(fmt.Sprintf("%v%v%v", storage.path, nameOfFile, fileType), os.O_RDWR|os.O_CREATE, 0777)
+	f, err := os.OpenFile(fmt.Sprintf("%v%v%v", storage.path, nameOfFile, fileType), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 
 	if err != nil {
-		return nil, errors.New("a problem happens with the database file")
+		return nil, errors.New(fmt.Sprintln(err))
 	}
 
-	/*if _, err := os.Stat(fmt.Sprintf("%v%v%v", storage.path, nameOfFile, fileType)); os.IsNotExist(err) {
-		file, _ := os.Create(fmt.Sprintf("%v%v%v", storage.path, nameOfFile, fileType))
-	} else {
-
-		file, _ := os.Open("05-parsing_http_response/data/beers.csv")
-	}
-
-	if err != nil {
-		return nil, errors.New("a problem happens creating the database file")
-	}
-	*/
 	writer := csv.NewWriter(f)
 
 	id := strconv.Itoa(q.ID)
 
 	record := []string{id, q.TitleESP, q.TitleENG, q.URL, q.Code, q.ExplanationESP, q.ExplanationENG, q.Tags}
 
-	err = writer.Write(record) // returns error
+	err = writer.Write(record)
+
+	writer.Flush()
+	defer f.Close()
 
 	if err != nil {
 		return nil, errors.New("Problem writting quiz")
@@ -103,24 +95,24 @@ func (storage InMemoryRepository) GetQuiz(QuizID int) (*quiz.Quiz, error) {
 		return nil, errors.New("CATALOG NOT FOUND")
 	}
 
-	var quizFound *quiz.Quiz
+	var quizFound quiz.Quiz
 
 	for _, quiz := range catalog.Quizes {
 
 		if QuizID == quiz.ID {
-			quizFound = &quiz
+			quizFound = quiz
 
 		}
 
 	}
 
-	if quizFound == nil {
+	if (quiz.Quiz{}) == quizFound {
 
 		return nil, errors.New("QUIZ NOT FOUND")
 
 	}
 
-	return quizFound, nil
+	return &quizFound, nil
 
 }
 

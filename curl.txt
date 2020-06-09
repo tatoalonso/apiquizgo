@@ -1,7 +1,12 @@
 
 
-curl -X POST "https://api.climacell.co/v3/weather/realtime?lat=42.3826&lon=-71.1460&timestep=60&unit_system=si&start_time=2020-05-25T14:32:44.505Z&end_time=now" \
+curl -X POST "http://localhost:8000/newquiz" \
   -H "Accept: application/json" \
-  -G  -d 'fields=precipitation,precipitation_type,temp,feels_like,dewpoint,wind_speed,wind_gust,baro_pressure,visibility,humidity,wind_direction,sunrise,sunset,cloud_cover,cloud_ceiling,cloud_base,surface_shortwave_radiation,weather_code,pollen_tree' | json_pp 
-  
+  -d '{"id":1, "titleSpanish":"ejemplo","titleEnglish":"example" ,"url":"https://play.golang.org/","code":"code..", "explanationSpanish":"ejemplo","explanationEnglish":"example","tags":"tesst"}'
+
+
+
+curl -X POST "http://localhost:8000/newquiz" \
+  -H "Accept: application/json" \
+  -d '{"id":2, "titleSpanish":"ejemplo2","titleEnglish":"example2" ,"url":"https://play.golang.org/","code":"code2..", "explanationSpanish":"ejemplo2","explanationEnglish":"example2","tags":"tesst2"}'
 

@@ -46,7 +46,7 @@ func (newQuizUseCase DefaultUseCase) GetQuizByID(ID int) (*quiz.Quiz, error) {
 }
 
 //GetQuizLists gets a list of quizes from the storage
-func (newQuizUseCase DefaultUseCase) GetQuizLists(ID string) (*quiz.Catalog, error) {
+func (newQuizUseCase DefaultUseCase) GetQuizLists() (*quiz.Catalog, error) {
 
 	returnedQuizuesList, err := newQuizUseCase.repository.GetCatalog()
 

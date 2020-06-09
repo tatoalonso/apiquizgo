@@ -37,7 +37,20 @@ func NewServer() Server {
 
 func fetchQuizes(w http.ResponseWriter, r *http.Request) {
 
-	w.Write([]byte("quizes!\n"))
+	//w.Write([]byte("quizes!\n"))
+
+	repository := inmemoryrepository.NewInMemoryRepository()
+	useCase := usescases.NewDefaultUseCase(repository)
+
+	returnedQuizes, err := useCase.GetQuizLists()
+
+	if err != nil {
+		handleErrorResponse(w, err)
+		return
+	}
+
+	handleResponse(w, returnedQuizes, nil)
+
 }
 
 func fetchQuiz(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +105,7 @@ func handleErrorResponse(writer http.ResponseWriter, err error) {
 	writer.WriteHeader(http.StatusBadRequest)
 	_, err = writer.Write([]byte(err.Error()))
 	if err != nil {
-		//TODO log framework
+
 		log.Println(err)
 	}
 }
